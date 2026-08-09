@@ -189,7 +189,20 @@ export default function TextPressure({
     };
 
     animate();
-    return () => cancelAnimationFrame(rafId);
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(rafId);
+      } else {
+        rafId = requestAnimationFrame(animate);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
   }, [width, weight, italic, alpha]);
 
   const styleElement = useMemo(() => {

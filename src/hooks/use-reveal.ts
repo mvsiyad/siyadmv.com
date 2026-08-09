@@ -9,6 +9,25 @@ export function useReveal() {
       els.forEach((el) => el.classList.add("is-visible"));
       return;
     }
+
+    // Assign staggered delay to sibling .reveal elements
+    const parentMap = new Map<Element, HTMLElement[]>();
+    els.forEach((el) => {
+      const parent = el.parentElement;
+      if (!parent) return;
+      if (!parentMap.has(parent)) parentMap.set(parent, []);
+      parentMap.get(parent)!.push(el);
+    });
+
+    parentMap.forEach((siblings) => {
+      // Only stagger if there are multiple siblings (not solo elements)
+      if (siblings.length > 1) {
+        siblings.forEach((el, idx) => {
+          el.style.transitionDelay = `${idx * 80}ms`;
+        });
+      }
+    });
+
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {

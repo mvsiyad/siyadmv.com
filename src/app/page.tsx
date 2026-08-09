@@ -11,6 +11,7 @@ import SiteBackdrop from "@/components/SiteBackdrop";
 import ScrollProgress from "@/components/ScrollProgress";
 import Cursor from "@/components/Cursor";
 import WelcomeScreen from "@/components/WelcomeScreen";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
       <SiteBackdrop />
       <ScrollProgress />
       <Cursor />
+      <ScrollReveal />
       <Navbar />
       <main>
         <Hero />

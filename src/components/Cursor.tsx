@@ -21,11 +21,13 @@ export default function Cursor() {
       }
     };
 
+    let rafId: number;
+
     const loop = () => {
       rx += (x - rx) * 0.15;
       ry += (y - ry) * 0.15;
       if (ring.current) ring.current.style.transform = `translate(${rx}px, ${ry}px)`;
-      requestAnimationFrame(loop);
+      rafId = requestAnimationFrame(loop);
     };
 
     // Step 14: Cursor hover expansion on links, buttons, and custom triggers
@@ -87,18 +89,23 @@ export default function Cursor() {
     window.addEventListener("mousemove", move);
     loop();
 
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(rafId);
+      } else {
+        rafId = requestAnimationFrame(loop);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
     return () => {
+      cancelAnimationFrame(rafId);
       window.removeEventListener("mousemove", move);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       observer.disconnect();
-      // Cleanup events on page unload/component unmount
       removeHoverListeners(document);
     };
   }, []);
-
-  // Return null if prefers-reduced-motion is enabled
-  if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    return null;
-  }
 
   return (
     <>

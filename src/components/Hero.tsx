@@ -1,11 +1,8 @@
 "use client";
 
 import { ArrowUpRight, MapPin, Download } from "lucide-react";
-import { useReveal } from "@/hooks/use-reveal";
 
 export default function Hero() {
-  useReveal();
-
   return (
     <section id="home" className="relative pt-32 md:pt-40">
       {/* Soft decorative blobs */}
