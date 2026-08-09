@@ -112,12 +112,12 @@ export default function Cursor() {
       <div
         ref={ring}
         aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-[100] -ml-5 -mt-5 h-10 w-10 rounded-full border border-primary/60 mix-blend-difference hidden md:block transition-[transform,background-color,border-color] duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
+        className="pointer-events-none fixed left-0 top-0 z-[100] -ml-5 -mt-5 h-10 w-10 rounded-full border border-primary/60 mix-blend-difference hidden md:block transition-[scale,background-color,border-color] duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
       />
       <div
         ref={dot}
         aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-[101] -ml-[3px] -mt-[3px] h-1.5 w-1.5 rounded-full bg-primary hidden md:block transition-transform duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
+        className="pointer-events-none fixed left-0 top-0 z-[101] -ml-[3px] -mt-[3px] h-1.5 w-1.5 rounded-full bg-primary hidden md:block transition-[scale] duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
       />
     </>
   );
