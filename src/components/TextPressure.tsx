@@ -9,8 +9,8 @@ const dist = (a: { x: number; y: number }, b: { x: number; y: number }) => {
 };
 
 const getAttr = (distance: number, maxDist: number, minVal: number, maxVal: number) => {
-  const val = maxVal - Math.abs((maxVal * distance) / maxDist);
-  return Math.max(minVal, val + minVal);
+  const ratio = Math.min(1, distance / maxDist);
+  return maxVal - (maxVal - minVal) * ratio;
 };
 
 // Simple debounce helper
@@ -101,7 +101,7 @@ export default function TextPressure({
   const setSize = useCallback(() => {
     if (!containerRef.current || !titleRef.current) return;
 
-    const { width: containerW, height: containerH } = containerRef.current.getBoundingClientRect();
+    const { width: containerW } = containerRef.current.getBoundingClientRect();
 
     let newFontSize = containerW / (chars.length / 2);
     newFontSize = Math.max(newFontSize, minFontSize);
@@ -109,25 +109,43 @@ export default function TextPressure({
     setFontSize(newFontSize);
     setScaleY(1);
     setLineHeight(1);
-
-    requestAnimationFrame(() => {
-      if (!titleRef.current) return;
-      const textRect = titleRef.current.getBoundingClientRect();
-
-      if (scale && textRect.height > 0) {
-        const yRatio = containerH / textRect.height;
-        setScaleY(yRatio);
-        setLineHeight(yRatio);
-      }
-    });
-  }, [chars.length, minFontSize, scale]);
+  }, [chars.length, minFontSize]);
 
   useEffect(() => {
     const debouncedSetSize = debounce(setSize, 100);
     debouncedSetSize();
     window.addEventListener("resize", debouncedSetSize);
-    return () => window.removeEventListener("resize", debouncedSetSize);
+
+    // Recalculate size when custom fonts are loaded and ready
+    if (typeof document !== "undefined" && "fonts" in document) {
+      document.fonts.ready.then(() => {
+        setSize();
+      });
+    }
+
+    return () => {
+      window.removeEventListener("resize", debouncedSetSize);
+    };
   }, [setSize]);
+
+  // Recalculate vertical scale after the font-size changes have been flushed to the DOM
+  useEffect(() => {
+    if (!scale || !containerRef.current || !titleRef.current) return;
+
+    const rafId = requestAnimationFrame(() => {
+      if (!containerRef.current || !titleRef.current) return;
+      const { height: containerH } = containerRef.current.getBoundingClientRect();
+      const textRect = titleRef.current.getBoundingClientRect();
+
+      if (textRect.height > 0) {
+        const yRatio = containerH / textRect.height;
+        setScaleY(yRatio);
+        setLineHeight(yRatio);
+      }
+    });
+
+    return () => cancelAnimationFrame(rafId);
+  }, [fontSize, scale]);
 
   useEffect(() => {
     let rafId: number;
@@ -150,8 +168,8 @@ export default function TextPressure({
 
           const d = dist(mouseRef.current, charCenter);
 
-          const wdth = width ? Math.floor(getAttr(d, maxDist, 5, 200)) : 100;
-          const wght = weight ? Math.floor(getAttr(d, maxDist, 100, 900)) : 400;
+          const wdth = width ? Math.floor(getAttr(d, maxDist, 60, 135)) : 100;
+          const wght = weight ? Math.floor(getAttr(d, maxDist, 200, 800)) : 400;
           const italVal = italic ? parseFloat(getAttr(d, maxDist, 0, 1).toFixed(2)) : 0;
           const alphaVal = alpha ? parseFloat(getAttr(d, maxDist, 0, 1).toFixed(2)) : 1;
 
@@ -222,6 +240,9 @@ export default function TextPressure({
         width: "100%",
         height: "100%",
         background: "transparent",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
       {styleElement}
@@ -236,7 +257,7 @@ export default function TextPressure({
           fontSize: fontSize,
           lineHeight,
           transform: `scale(1, ${scaleY})`,
-          transformOrigin: "center top",
+          transformOrigin: "center center",
           margin: 0,
           textAlign: "center",
           userSelect: "none",

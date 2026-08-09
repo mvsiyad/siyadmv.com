@@ -7,13 +7,24 @@ import TextPressure from "./TextPressure";
 
 export default function WelcomeScreen() {
   const [mounted, setMounted] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
   const { resolvedTheme, setTheme } = useTheme();
 
   useEffect(() => {
     setMounted(true);
+    
+    // Step 12: Skip WelcomeScreen for returning session visitors
+    const hasVisited = sessionStorage.getItem("siyad_portfolio_visited");
+    if (hasVisited) {
+      setShowWelcome(false);
+    } else {
+      sessionStorage.setItem("siyad_portfolio_visited", "true");
+    }
   }, []);
 
   const dark = resolvedTheme === "dark";
+
+  if (!showWelcome) return null;
 
   return (
     <section className="relative z-[60] h-screen w-full flex items-center justify-center bg-background text-foreground transition-colors duration-500 overflow-hidden">
@@ -37,6 +48,28 @@ export default function WelcomeScreen() {
           minFontSize={48}
           scale={true}
         />
+      </div>
+
+      {/* Step 11: Scroll-down indicator cue */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-foreground/50 transition-opacity duration-500 animate-pulse pointer-events-none">
+        <span className="text-[10px] uppercase tracking-[0.3em] font-medium opacity-80">Scroll to explore</span>
+        <div className="flex flex-col items-center gap-1">
+          <div className="w-1.5 h-1.5 rounded-full bg-primary animate-[bounce_1.5s_infinite]" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="animate-bounce"
+          >
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </div>
       </div>
 
       {/* Theme toggle — bottom right */}
