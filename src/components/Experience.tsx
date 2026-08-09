@@ -21,7 +21,7 @@ const items = [
 
 export default function Experience() {
   return (
-    <section className="border-t border-border bg-card/40">
+    <section id="experience" className="border-t border-border bg-card/40">
       <div className="mx-auto max-w-7xl px-6 py-32 md:px-10 md:py-40">
         <p className="text-xs uppercase tracking-[0.3em] text-primary reveal">04 — Journey</p>
         <h2 className="mt-6 max-w-3xl font-display text-5xl leading-[0.95] md:text-7xl reveal">

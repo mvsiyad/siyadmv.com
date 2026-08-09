@@ -18,12 +18,6 @@ const LinkedinIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const TwitterIcon = ({ className }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
-  </svg>
-);
-
 export default function Contact() {
   const [time, setTime] = useState("");
 
@@ -57,18 +51,17 @@ export default function Contact() {
         <div className="mt-16 grid gap-10 md:grid-cols-12 reveal">
           <div className="md:col-span-6">
             <a
-              href="mailto:hello@siyad.dev"
+              href="mailto:mohdsiyadmv@gmail.com"
               className="group inline-flex items-center gap-4 font-display text-3xl md:text-5xl underline-sweep"
             >
-              hello@siyad.dev
+              mohdsiyadmv@gmail.com
               <ArrowUpRight className="h-8 w-8 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1" />
             </a>
             <div className="mt-10 flex flex-wrap gap-3">
               {[
                 { icon: GithubIcon, label: "GitHub", href: "https://github.com/mvsiyad" },
                 { icon: LinkedinIcon, label: "LinkedIn", href: "https://linkedin.com/in/siyad-mv" },
-                { icon: TwitterIcon, label: "Twitter", href: "#" },
-                { icon: Mail, label: "Email", href: "mailto:hello@siyad.dev" },
+                { icon: Mail, label: "Email", href: "mailto:mohdsiyadmv@gmail.com" },
               ].map((s) => (
                 <a
                   key={s.label}

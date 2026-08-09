@@ -11,6 +11,7 @@ const projects = [
     year: "2025",
     desc: "Transform your books into interactive AI conversations. Upload PDFs or documents and chat with them using voice commands.",
     stack: ["Next.js", "TypeScript", "AI Integration"],
+    link: "https://github.com/mvsiyad/BookiFY",
   },
   {
     n: "02",
@@ -19,6 +20,7 @@ const projects = [
     year: "2024",
     desc: "A premium behavioral tracking platform allowing users to monitor rhythmic activities, analyze personal habits, and view visual analytics.",
     stack: ["React", "Node.js", "Express"],
+    link: "https://github.com/mvsiyad/RhythmTracker",
   },
   {
     n: "03",
@@ -27,6 +29,7 @@ const projects = [
     year: "2024",
     desc: "A dynamic automotive trading and leasing portal showcasing product listings, customized search parameters, and an elegant interface.",
     stack: ["React.js", "Tailwind CSS", "Context API"],
+    link: "https://github.com/mvsiyad/Wheel-Deal",
   },
   {
     n: "04",
@@ -35,6 +38,7 @@ const projects = [
     year: "2023",
     desc: "An aesthetic personal journal and blogging application designed for writing, timeline-tracking, and archiving precious life memories.",
     stack: ["React.js", "CSS Modules", "HTML5"],
+    link: "https://github.com/mvsiyad/Memoir",
   },
 ];
 
@@ -48,7 +52,9 @@ function ProjectRow({ p }: { p: (typeof projects)[number] }) {
       onMouseLeave={() => setHover(false)}
     >
       <a
-        href="#contact"
+        href={p.link}
+        target="_blank"
+        rel="noopener noreferrer"
         className="grid grid-cols-12 items-center gap-6 py-8 md:py-10 transition-colors duration-500 hover:text-primary-foreground relative"
       >
         {/* Red slide-in bg */}

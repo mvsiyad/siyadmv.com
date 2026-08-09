@@ -58,7 +58,7 @@ export default function TextPressure({
   minFontSize = 24,
 }: TextPressureProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
   const spansRef = useRef<(HTMLSpanElement | null)[]>([]);
 
   const mouseRef = useRef({ x: 0, y: 0 });
@@ -225,8 +225,10 @@ export default function TextPressure({
       }}
     >
       {styleElement}
-      <h1
+      <div
         ref={titleRef}
+        role="presentation"
+        aria-hidden="true"
         className={`text-pressure-title ${dynamicClassName}`}
         style={{
           fontFamily,
@@ -258,7 +260,7 @@ export default function TextPressure({
             {char === " " ? "\u00A0" : char}
           </span>
         ))}
-      </h1>
+      </div>
     </div>
   );
 }
