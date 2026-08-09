@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, MapPin } from "lucide-react";
+import { ArrowUpRight, MapPin, Download } from "lucide-react";
 import { useReveal } from "@/hooks/use-reveal";
 
 export default function Hero() {
@@ -58,6 +58,13 @@ export default function Hero() {
             className="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-7 py-3.5 text-sm font-medium text-foreground hover:border-primary hover:text-primary transition-colors duration-300"
           >
             Get in touch
+          </a>
+          <a
+            href="/Siyad.pdf"
+            download="Mohammed_Siyad_MV_CV.pdf"
+            className="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-7 py-3.5 text-sm font-medium text-foreground hover:border-primary hover:text-primary transition-colors duration-300"
+          >
+            <Download className="h-4 w-4" /> Download CV
           </a>
         </div>
 

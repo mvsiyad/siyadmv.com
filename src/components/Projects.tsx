@@ -12,6 +12,7 @@ const projects = [
     desc: "Transform your books into interactive AI conversations. Upload PDFs or documents and chat with them using voice commands.",
     stack: ["Next.js", "TypeScript", "AI Integration"],
     link: "https://github.com/mvsiyad/BookiFY",
+    image: "/bookify-project.png",
   },
   {
     n: "02",
@@ -21,6 +22,7 @@ const projects = [
     desc: "A premium behavioral tracking platform allowing users to monitor rhythmic activities, analyze personal habits, and view visual analytics.",
     stack: ["React", "Node.js", "Express"],
     link: "https://github.com/mvsiyad/RhythmTracker",
+    image: "/dashboard-project.png",
   },
   {
     n: "03",
@@ -30,6 +32,7 @@ const projects = [
     desc: "A dynamic automotive trading and leasing portal showcasing product listings, customized search parameters, and an elegant interface.",
     stack: ["React.js", "Tailwind CSS", "Context API"],
     link: "https://github.com/mvsiyad/Wheel-Deal",
+    image: "/wheel-deal-project.png",
   },
   {
     n: "04",
@@ -39,6 +42,17 @@ const projects = [
     desc: "An aesthetic personal journal and blogging application designed for writing, timeline-tracking, and archiving precious life memories.",
     stack: ["React.js", "CSS Modules", "HTML5"],
     link: "https://github.com/mvsiyad/Memoir",
+    image: "/collab-project.png",
+  },
+  {
+    n: "05",
+    title: "E-Commerce",
+    tag: "Full Stack · MERN",
+    year: "2024",
+    desc: "A comprehensive online shopping portal featuring secure checkout, interactive product catalogs, cart state persistence, and user profiles.",
+    stack: ["React", "Node.js", "MongoDB"],
+    link: "https://github.com/mvsiyad/e-commerce",
+    image: "/ecommerce-project.png",
   },
 ];
 
@@ -55,10 +69,23 @@ function ProjectRow({ p }: { p: (typeof projects)[number] }) {
         href={p.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="grid grid-cols-12 items-center gap-6 py-8 md:py-10 transition-colors duration-500 hover:text-primary-foreground relative"
+        className="grid grid-cols-12 items-center gap-6 py-8 md:py-10 transition-colors duration-500 hover:text-primary-foreground relative overflow-hidden"
       >
         {/* Red slide-in bg */}
-        <span className="absolute inset-0 -z-10 origin-bottom scale-y-0 bg-primary transition-transform duration-700 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:origin-top group-hover:scale-y-100" />
+        <span className="absolute inset-0 -z-20 origin-bottom scale-y-0 bg-primary transition-transform duration-700 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:origin-top group-hover:scale-y-100" />
+
+        {/* Half-covering low-opacity project image on hover */}
+        <div className="absolute right-0 top-0 bottom-0 w-full md:w-1/2 overflow-hidden pointer-events-none -z-10 opacity-0 group-hover:opacity-20 transition-opacity duration-700">
+          <img
+            src={p.image}
+            alt=""
+            className="w-full h-full object-cover object-left-top translate-x-8 group-hover:translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
+            style={{
+              maskImage: "linear-gradient(to right, transparent, black 35%)",
+              WebkitMaskImage: "linear-gradient(to right, transparent, black 35%)",
+            }}
+          />
+        </div>
 
         <span className="col-span-2 md:col-span-1 font-display text-xl text-primary group-hover:text-primary-foreground/70 transition-colors duration-500">
           {p.n}
@@ -71,7 +98,7 @@ function ProjectRow({ p }: { p: (typeof projects)[number] }) {
             {p.desc}
           </p>
         </div>
-        <div className="col-span-8 md:col-span-3 flex flex-wrap gap-2">
+        <div className="col-span-8 md:col-span-3 flex flex-wrap gap-2 items-center">
           {p.stack.slice(0, 3).map((s) => (
             <span
               key={s}
