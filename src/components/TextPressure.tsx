@@ -63,6 +63,8 @@ export default function TextPressure({
 
   const mouseRef = useRef({ x: 0, y: 0 });
   const cursorRef = useRef({ x: 0, y: 0 });
+  const spanCentersRef = useRef<{ x: number; y: number }[]>([]);
+  const maxDistRef = useRef<number>(0);
 
   const [fontSize, setFontSize] = useState(minFontSize);
   const [scaleY, setScaleY] = useState(1);
@@ -112,13 +114,20 @@ export default function TextPressure({
   }, [chars.length, minFontSize]);
 
   useEffect(() => {
-    const debouncedSetSize = debounce(setSize, 100);
+    const handleResize = () => {
+      spanCentersRef.current = [];
+      maxDistRef.current = 0;
+      setSize();
+    };
+    const debouncedSetSize = debounce(handleResize, 100);
     debouncedSetSize();
     window.addEventListener("resize", debouncedSetSize);
 
     // Recalculate size when custom fonts are loaded and ready
     if (typeof document !== "undefined" && "fonts" in document) {
       document.fonts.ready.then(() => {
+        spanCentersRef.current = [];
+        maxDistRef.current = 0;
         setSize();
       });
     }
@@ -150,22 +159,37 @@ export default function TextPressure({
   useEffect(() => {
     let rafId: number;
     const animate = () => {
+      // Pause updates if page is scrolled past the viewport
+      if (window.scrollY > window.innerHeight) {
+        rafId = requestAnimationFrame(animate);
+        return;
+      }
+
       mouseRef.current.x += (cursorRef.current.x - mouseRef.current.x) / 15;
       mouseRef.current.y += (cursorRef.current.y - mouseRef.current.y) / 15;
 
       if (titleRef.current) {
-        const titleRect = titleRef.current.getBoundingClientRect();
-        const maxDist = titleRect.width / 2;
+        // Compute layout values once and cache them (since the container is fixed and positions do not change on scroll)
+        if (spanCentersRef.current.length === 0 || maxDistRef.current === 0) {
+          const titleRect = titleRef.current.getBoundingClientRect();
+          maxDistRef.current = titleRect.width / 2;
 
-        spansRef.current.forEach((span) => {
+          spanCentersRef.current = spansRef.current.map((span) => {
+            if (!span) return { x: 0, y: 0 };
+            const rect = span.getBoundingClientRect();
+            return {
+              x: rect.x + rect.width / 2,
+              y: rect.y + rect.height / 2,
+            };
+          });
+        }
+
+        const maxDist = maxDistRef.current;
+
+        spansRef.current.forEach((span, idx) => {
           if (!span) return;
 
-          const rect = span.getBoundingClientRect();
-          const charCenter = {
-            x: rect.x + rect.width / 2,
-            y: rect.y + rect.height / 2,
-          };
-
+          const charCenter = spanCentersRef.current[idx] || { x: 0, y: 0 };
           const d = dist(mouseRef.current, charCenter);
 
           const wdth = width ? Math.floor(getAttr(d, maxDist, 60, 135)) : 100;

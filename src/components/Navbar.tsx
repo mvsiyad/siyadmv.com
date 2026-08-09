@@ -17,13 +17,37 @@ export default function Navbar() {
   const { theme, setTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const on = () => setScrolled(window.scrollY > 20);
+    const hasVisited = sessionStorage.getItem("siyad_portfolio_visited");
+
+    const on = () => {
+      const scrollY = window.scrollY;
+      const vh = window.innerHeight;
+
+      if (hasVisited) {
+        setVisible(true);
+        setScrolled(scrollY > 20);
+      } else {
+        if (scrollY >= vh * 0.8) {
+          setVisible(true);
+          setScrolled(true);
+        } else {
+          setVisible(false);
+          setScrolled(false);
+        }
+      }
+    };
+
     on();
-    window.addEventListener("scroll", on);
-    return () => window.removeEventListener("scroll", on);
+    window.addEventListener("scroll", on, { passive: true });
+    window.addEventListener("resize", on);
+    return () => {
+      window.removeEventListener("scroll", on);
+      window.removeEventListener("resize", on);
+    };
   }, []);
 
   // Close menu on outside click
@@ -53,6 +77,8 @@ export default function Navbar() {
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+          visible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"
+        } ${
           scrolled || menuOpen ? "backdrop-blur-md bg-background/70 border-b border-border" : ""
         }`}
       >
