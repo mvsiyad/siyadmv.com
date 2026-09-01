@@ -1,9 +1,9 @@
 const items = [
   {
     year: "2023 — Now",
-    role: "Full Stack Developer",
+    role: "Full Stack & AI Engineer",
     company: "Wizzo Technologies",
-    copy: "Design and develop responsive, high-performance web applications using the MERN stack. Implement real-time API integrations, robust user authentication flows, and state management solutions. Collaborate closely with design and product teams.",
+    copy: "Architected and shipped Wizzo AI, an enterprise multi-tenant automation & booking platform. Integrated Meta's WhatsApp Cloud API with Google Gemini and pgvector RAG for autonomous client support. Engineered a multi-constraint resource scheduling engine, automated PDF invoicing pipeline, and a high-performance React 19 dashboard.",
   },
   {
     year: "2024",

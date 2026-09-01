@@ -6,6 +6,16 @@ import { ArrowUpRight } from "lucide-react";
 const projects = [
   {
     n: "01",
+    title: "Wizzo AI (ADHUD)",
+    tag: "Enterprise SaaS · AI & RAG",
+    year: "2025",
+    desc: "Multi-tenant AI booking & automation platform integrating Meta WhatsApp Cloud API with Google Gemini, pgvector RAG, and an intelligent resource constraint engine.",
+    stack: ["React 19", "Node.js", "pgvector", "WhatsApp API", "Gemini AI"],
+    link: "https://adhud.io",
+    image: "/wizzo-project.jpg",
+  },
+  {
+    n: "02",
     title: "BookiFY",
     tag: "Full Stack · AI",
     year: "2025",
@@ -15,7 +25,7 @@ const projects = [
     image: "/bookify-project.png",
   },
   {
-    n: "02",
+    n: "03",
     title: "RhythmTracker",
     tag: "Full Stack · MERN",
     year: "2024",
@@ -25,7 +35,7 @@ const projects = [
     image: "/dashboard-project.png",
   },
   {
-    n: "03",
+    n: "04",
     title: "Wheel-Deal",
     tag: "Frontend App",
     year: "2024",
@@ -33,16 +43,6 @@ const projects = [
     stack: ["React.js", "Tailwind CSS", "Context API"],
     link: "https://github.com/mvsiyad/Wheel-Deal",
     image: "/wheel-deal-project.png",
-  },
-  {
-    n: "04",
-    title: "Memoir",
-    tag: "Frontend App",
-    year: "2023",
-    desc: "An aesthetic personal journal and blogging application designed for writing, timeline-tracking, and archiving precious life memories.",
-    stack: ["React.js", "CSS Modules", "HTML5"],
-    link: "https://github.com/mvsiyad/Memoir",
-    image: "/collab-project.png",
   },
   {
     n: "05",
