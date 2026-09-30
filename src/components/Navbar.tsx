@@ -14,7 +14,7 @@ const navLinks = [
 
 export default function Navbar() {
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -71,7 +71,7 @@ export default function Navbar() {
 
   if (!mounted) return null;
 
-  const dark = theme === "dark";
+  const dark = (resolvedTheme || theme) === "dark";
 
   return (
     <>
