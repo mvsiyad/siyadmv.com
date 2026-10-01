@@ -1,4 +1,5 @@
 import React from "react";
+import { GlowingEffect } from "@/components/ui/glowing-effect";
 
 const skillIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   React: () => (
@@ -174,20 +175,39 @@ export default function Skills() {
         {Object.entries(skills).map(([group, items]) => (
           <div
             key={group}
-            className="reveal rounded-2xl border border-border bg-card/60 p-6 transition-all duration-500 hover:-translate-y-1 hover:border-primary hover:shadow-[0_20px_60px_-30px_rgba(169,14,2,0.5)]"
+            className="reveal relative rounded-2xl border border-border/80 bg-card/75 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-[0_20px_50px_-20px_rgba(230,63,46,0.25)]"
           >
-            <h3 className="font-display text-2xl text-primary">{group}</h3>
-            <ul className="mt-6 space-y-3.5 text-foreground/80">
-              {items.map((s) => {
-                const IconComponent = skillIcons[s];
-                return (
-                  <li key={s} className="flex items-center gap-3.5 text-sm font-medium">
-                    {IconComponent ? <IconComponent /> : <span className="h-1.5 w-1.5 rounded-full bg-primary shrink-0" />}
-                    <span>{s}</span>
-                  </li>
-                );
-              })}
-            </ul>
+            <GlowingEffect
+              spread={45}
+              glow={true}
+              disabled={false}
+              proximity={80}
+              inactiveZone={0.01}
+              borderWidth={2}
+            />
+            <div className="relative z-10 flex flex-col h-full">
+              <h3 className="font-display text-2xl text-primary">{group}</h3>
+              <ul className="mt-6 space-y-3.5 text-foreground/80">
+                {items.map((s) => {
+                  const IconComponent = skillIcons[s];
+                  return (
+                    <li
+                      key={s}
+                      className="group/item flex items-center gap-3.5 text-sm font-medium transition-colors duration-200 hover:text-foreground"
+                    >
+                      {IconComponent ? (
+                        <span className="transition-transform duration-200 group-hover/item:scale-110">
+                          <IconComponent />
+                        </span>
+                      ) : (
+                        <span className="h-1.5 w-1.5 rounded-full bg-primary shrink-0 transition-transform duration-200 group-hover/item:scale-125" />
+                      )}
+                      <span>{s}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
         ))}
       </div>

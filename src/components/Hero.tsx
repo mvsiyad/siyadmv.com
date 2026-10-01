@@ -1,15 +1,54 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 import { ArrowUpRight, MapPin, Download } from "lucide-react";
+import GhostEther from "@/components/ui/ghost-ether";
 
 export default function Hero() {
-  return (
-    <section id="home" className="relative pt-32 md:pt-40">
-      {/* Soft decorative blobs */}
-      <div className="pointer-events-none absolute -top-24 -right-24 h-[520px] w-[520px] rounded-full bg-primary/10 blur-3xl animate-float-slow" />
-      <div className="pointer-events-none absolute top-40 -left-20 h-[380px] w-[380px] rounded-full bg-primary/5 blur-3xl" />
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-      <div className="mx-auto max-w-7xl px-6 md:px-10">
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDark = mounted && resolvedTheme === "dark";
+
+  // Signature brand color gradient: Milano Red, Crimson, and Amber Gold
+  const fluidColors = isDark
+    ? ["#E63F2E", "#FF5733", "#FBBF24"]
+    : ["#A90E02", "#D9381E", "#F59E0B"];
+
+  return (
+    <section id="home" className="relative pt-32 md:pt-40 overflow-hidden">
+      {/* Interactive WebGL Fluid Simulation */}
+      <div className="pointer-events-none absolute inset-0 -z-0 opacity-80 dark:opacity-90 overflow-hidden">
+        <GhostEther
+          colors={fluidColors}
+          mouseForce={24}
+          cursorSize={90}
+          isViscous={true}
+          viscous={28}
+          iterationsViscous={18}
+          iterationsPoisson={18}
+          resolution={0.45}
+          isBounce={false}
+          autoDemo={true}
+          autoSpeed={0.45}
+          autoIntensity={1.9}
+          takeoverDuration={0.3}
+          autoResumeDelay={1500}
+          autoRampDuration={0.8}
+          className="w-full h-full"
+        />
+      </div>
+
+      {/* Soft decorative background ambient glow */}
+      <div className="pointer-events-none absolute -top-24 -right-24 h-[520px] w-[520px] rounded-full bg-primary/10 blur-3xl animate-float-slow -z-0" />
+      <div className="pointer-events-none absolute top-40 -left-20 h-[380px] w-[380px] rounded-full bg-primary/5 blur-3xl -z-0" />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-10">
         <div className="flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-foreground/60 reveal">
           <span className="h-px w-10 bg-primary" />
           <span>Portfolio · 2026</span>
